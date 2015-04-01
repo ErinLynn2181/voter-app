@@ -7,8 +7,10 @@ angular.module('votingApp')
     $scope.isAdmin = Auth.isAdmin;
     $scope.getCurrentUser = Auth.getCurrentUser();
 
+    this.x = 42
+
     console.log(Auth.getCurrentUser());
-    
+
     $http.get('/api/things').success(function(awesomeThings) {
       $scope.awesomeThings = awesomeThings;
     });
