@@ -12,6 +12,8 @@ angular.module('votingApp')
     $scope.isAdmin = Auth.isAdmin;
     $scope.getCurrentUser = Auth.getCurrentUser();
 
+    $scope.isTwitter = $scope.getCurrentUser.provider === 'twitter';
+
     $scope.logout = function() {
       Auth.logout();
       $location.path('/login');

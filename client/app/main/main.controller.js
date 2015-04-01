@@ -7,8 +7,8 @@ angular.module('votingApp')
     $scope.isAdmin = Auth.isAdmin;
     $scope.getCurrentUser = Auth.getCurrentUser();
 
-    //$scope.twitterImg = twitter.twitter.profile_image_url;
-
+    console.log(Auth.getCurrentUser());
+    
     $http.get('/api/things').success(function(awesomeThings) {
       $scope.awesomeThings = awesomeThings;
     });
