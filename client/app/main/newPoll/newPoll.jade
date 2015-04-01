@@ -2,23 +2,15 @@
   span
     h2 New Poll
   
-  form
+  form(name='poll' novalidate)
     .form-group
       label(for='name') Name your poll
-      input(type='text' id='name' placeholder='What is your favorite brand?' required).form-control
-    .form-group
-      label(for='option1') Option
-      input(type='text' id='option1' placeholder='Pepsi' required).form-control
-    .form-group
-      label(for='option2') Option
-      input(type='text' id='option2' placeholder='Coca-Cola' required).form-control
+      input(type='text' id='name' ng-model='pollName' placeholder='What is your favorite brand?' required).form-control
       
-    .form-group(ng-repeat="n in options")
-      label(for='{{n.label}}') Option
-      input(type='text' id='{{n.id}}' placeholder='{{n.placeholder}}').form-control
-    
+    .form-group
+      label Options
+      input(type='text' ng-model='pollOptions[$index]' placeholder='{{n}}' ng-repeat="n in placeholders track by $index" required).form-control
+      
     .form-buttons
       button(type='button' ng-click="newOption()").btn.btn-default More Options
-      button(type='submit' ng-click="submit()").btn.btn-success Submit
-      
-  {{message}}
+      button(type='submit' ng-click="submit()" ng-disabled='poll.$invalid').btn.btn-success Submit

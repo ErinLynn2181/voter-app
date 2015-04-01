@@ -32,4 +32,8 @@ div(ng-controller='MainCtrl')
 
   div(ng-show='isLoggedIn()')
     logged-in
-    new-poll
+    .alert.alert-danger(ng-show="pollExists && !posted")
+      .strong Uh oh!
+      p You already have a poll with this name!
+    new-poll(ng-hide="posted")
+    new-poll-posted(ng-show="posted")
