@@ -21,7 +21,6 @@ angular.module('votingApp')
       $http.get('/api/polls/' + getCurrentUser.name + '/' + poll_name)
         .success(function(data) {
           // Poll does not already exist for user, create it
-          console.log(data);
           if (data.length === 0) {
             var post_data = {
               user_name: getCurrentUser.name,
@@ -31,8 +30,14 @@ angular.module('votingApp')
               voted_users: [],
               comments: []
             }
-            $http.post('/api/polls', post_data);
-            $scope.$parent.posted = true;
+            $http.post('/api/polls', post_data)
+              .success(function(data) {
+                var user = getCurrentUser.name.replace(' ', '-');
+                var poll_name = data.poll_name.replace(' ', '-');
+                $scope.$parent.posted_url = '' + document.URL + user + '/' + poll_name;
+                $scope.$parent.posted = true;
+              })
+
           } else {
             console.log("already exists");
             $scope.$parent.pollExists = true;
