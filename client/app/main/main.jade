@@ -1,0 +1,34 @@
+div(ng-include='"components/navbar/navbar.html"')
+
+div(ng-controller='MainCtrl')
+  div(ng-hide='isLoggedIn()')
+    header#banner.hero-unit
+      .container
+        h1 Vote Today!
+        p.lead Free voting polls just a few clicks away
+        button.btn.btn-lg.btn-success Sign Up
+
+    .container.marketing
+      .row
+        .col-lg-4.col-md-4.col-sm-4
+          i.fa.fa-heartbeat
+          h2 Live Results
+          p Live graphs show your poll results immediately in easy to an easy to understand format. One graph will not provide the whole picture, that's why we provide multiple graph types to better describe your results.
+        .col-lg-4.col-md-4.col-sm-4
+          i.fa.fa-globe
+          h2 Works Everywhere
+          p Traditional desktop computers now represent only 30% of Internet traffic. Your poll must work on the tablets, smart phones, netbooks and notebooks that your visitors are using. Our responsive designs do just that. 
+        .col-lg-4.col-md-4.col-sm-4
+          i.fa.fa-facebook
+          h2 Social Integration
+          p Free integrated facebook or traditional comments allow your poll voters to provide immediate feedback and discuss results. Social share buttons encourage your poll voters to help spread the word.
+
+    footer.footer
+      .container
+        p
+          | FreeCodeCamp Basejump
+          = ' | '
+          a(href='https://twitter.com/GeoffStorbeck') @GeoffStorbeck
+
+  div(ng-show='isLoggedIn()')
+    logged-in
