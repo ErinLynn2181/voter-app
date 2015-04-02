@@ -33,7 +33,8 @@ angular.module('votingApp')
             $http.post('/api/polls', post_data)
               .success(function(data) {
                 var user = getCurrentUser.name.replace(' ', '-');
-                var poll_name = data.poll_name.replace(' ', '-');
+                var poll_name = data.poll_name;
+                $scope.$parent.posted_url = undefined;
                 $scope.$parent.posted_url = '' + document.URL + user + '/' + poll_name;
                 $scope.$parent.posted = true;
 
