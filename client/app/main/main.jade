@@ -32,8 +32,8 @@ div(ng-controller='MainCtrl')
       .strong Uh oh!
       p You already have a poll with this name!
       
-    new-poll(ng-show="page === 'newPoll' && !posted")
-    new-poll-posted(ng-show="page==='newPage' && posted")
-
+    new-poll(ng-show="page === 'newPoll'")
+    new-poll-posted(ng-show="page==='newPollPosted'")
+    
     my-polls(ng-show="page === 'myPolls'")
   vote-poll(ng-show="page === 'votePoll'")

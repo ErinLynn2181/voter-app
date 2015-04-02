@@ -5,5 +5,6 @@
     form
       ul.list-group
         li.list-group-item(ng-repeat="item in myPolls" ng-click="setPage('votePoll', item.poll_name)")  {{item.poll_name}}
+          button(ng-click="delete(item.poll_name); $event.stopPropagation()").btn Delete
       
   .col-lg-4

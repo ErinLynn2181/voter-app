@@ -36,10 +36,16 @@ angular.module('votingApp')
                 var poll_name = data.poll_name.replace(' ', '-');
                 $scope.$parent.posted_url = '' + document.URL + user + '/' + poll_name;
                 $scope.$parent.posted = true;
+
+                // Remove form data from page after being submitted
+                $scope.pollName = undefined;
+                $scope.pollOptions = [];
+
+                $scope.$parent.page = 'newPollPosted';
               })
 
           } else {
-            // Poll already exists, don't create it 
+            // Poll already exists, don't create it
             $scope.$parent.pollExists = true;
           }
         });

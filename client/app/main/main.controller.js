@@ -2,9 +2,6 @@
 
 angular.module('votingApp')
   .controller('MainCtrl', function ($scope, $http, Auth, $routeParams) {
-
-    console.log($routeParams);
-
     $scope.awesomeThings = [];
     $scope.isLoggedIn = Auth.isLoggedIn;
     $scope.isAdmin = Auth.isAdmin;
@@ -15,9 +12,21 @@ angular.module('votingApp')
     $scope.selectedPoll;
     var user_name = undefined;
 
-    $http.get('/api/things').success(function(awesomeThings) {
-      $scope.awesomeThings = awesomeThings;
-    });
+    function populate() {
+      var user = $scope.getCurrentUser.name;
+      $http.get('/api/polls/' + user + '/all')
+        .success(function(data) {
+          var polls = [];
+          $scope.pollsExist = (data.length > 0) ? true : false;
+          if ($scope.pollsExist) {
+            for (var i = 0; i < data.length; i++) {
+              var posted_url = '' + document.URL + user.replace(' ', '-') + '/' + data[i].poll_name;
+              polls.push({ user_name: data[i].user_name, poll_name: data[i].poll_name, posted_url: posted_url});
+            }
+          }
+          $scope.myPolls = polls;
+        });
+    }
 
     $scope.addThing = function() {
       if($scope.newThing === '') {
@@ -27,8 +36,18 @@ angular.module('votingApp')
       $scope.newThing = '';
     };
 
-    $scope.deleteThing = function(thing) {
-      $http.delete('/api/things/' + thing._id);
+    $scope.delete = function(poll_name) {
+      var user = $scope.getCurrentUser.name;
+      $http.get('/api/polls/' + user + '/' + poll_name)
+        .success(function(data) {
+          if (data.length > 0) {
+            $http.delete('/api/polls/' + data[0]._id)
+              .success(function() {
+                // regenerate list with new item removed
+                populate();
+              })
+          }
+        })
     };
 
     $scope.setPage = function(page, poll) {
@@ -36,19 +55,7 @@ angular.module('votingApp')
 
       // Show all my polls
       if ($scope.page === 'myPolls') {
-        var user = $scope.getCurrentUser.name;
-        $http.get('/api/polls/' + user + '/all')
-          .success(function(data) {
-            var polls = [];
-            $scope.pollsExist = (data.length > 0) ? true : false;
-            if ($scope.pollsExist) {
-              for (var i = 0; i < data.length; i++) {
-                var posted_url = '' + document.URL + user.replace(' ', '-') + '/' + data[i].poll_name;
-                polls.push({ user_name: data[i].user_name, poll_name: data[i].poll_name, posted_url: posted_url});
-              }
-              $scope.myPolls = polls;
-            }
-          });
+        populate();
 
       // A selected poll was clicked
       } else if ($scope.page === 'votePoll') {
@@ -99,4 +106,5 @@ angular.module('votingApp')
       } else {
         console.log(Object.keys($routeParams).length);
       }
+
     });
