@@ -1,0 +1,9 @@
+.container
+  .col-lg-4
+    
+  .col-lg-4
+    form
+      ul.list-group
+        li.list-group-item(ng-repeat="item in myPolls" ng-click="setPage('votePoll', item.poll_name)")  {{item.poll_name}}
+      
+  .col-lg-4

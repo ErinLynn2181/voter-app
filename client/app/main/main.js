@@ -6,5 +6,6 @@ angular.module('votingApp')
       .when('/', {
         templateUrl: 'app/main/main.html',
         controller: 'MainCtrl'
-      });
+      })
+      .when('/:user/:poll', { templateUrl: 'app/main/main.html', controller: 'MainCtrl' });
   });

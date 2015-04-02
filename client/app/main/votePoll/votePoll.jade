@@ -1,14 +1,5 @@
-div(ng-include='"components/navbar/navbar.html"')
+.voting-form
 
-div(ng-controller='UserCtrl')
-
-.votingForm
-  header#banner.hero-unit
-    .container
-      h1 Vote Today!
-      p.lead Free voting polls just a few clicks away
-      button.btn.btn-lg.btn-success Sign Up
-      
   .container
     .col-lg-4.description
       h1 {{poll.poll_name + '?'}}
@@ -18,10 +9,9 @@ div(ng-controller='UserCtrl')
       form
         ul.list-group
           li.list-group-item( ng-repeat="item in poll.poll_options") 
-            input(type='radio') 
+            input(type='radio' name='choice') 
             {{item}}
-
-        button.btn.btn-lg.btn-success Vote!
+        button(ng-disabled="!isLoggedIn()").btn.btn-lg.btn-success Vote!
         
     .col-lg-4.comments
       p(ng-repeat="comment in poll.comments" ng-show="commentsExist")

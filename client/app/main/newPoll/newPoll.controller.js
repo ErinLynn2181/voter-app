@@ -39,7 +39,7 @@ angular.module('votingApp')
               })
 
           } else {
-            console.log("already exists");
+            // Poll already exists, don't create it 
             $scope.$parent.pollExists = true;
           }
         });

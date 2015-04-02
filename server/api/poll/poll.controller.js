@@ -23,11 +23,21 @@ exports.show = function(req, res) {
 */
 
 exports.show = function(req, res) {
-  Poll.find({'user_name': req.params.user_name, 'poll_name': req.params.poll_name}, function(err, poll) {
-    if(err) { return handleError(res, err); }
-    if(!poll) { return res.send(404); }
-    return res.json(poll);
-  });
+  // Return all polls
+  if (req.params.poll_name === 'all') {
+    Poll.find({'user_name': req.params.user_name}, function(err, poll) {
+      if(err) { return handleError(res, err); }
+      if(!poll) { return res.send(404); }
+      return res.json(poll);
+    });
+  // Return single poll
+  } else {
+    Poll.find({'user_name': req.params.user_name, 'poll_name': req.params.poll_name}, function(err, poll) {
+      if(err) { return handleError(res, err); }
+      if(!poll) { return res.send(404); }
+      return res.json(poll);
+    });
+  }
 };
 
 // Creates a new poll in the DB.
