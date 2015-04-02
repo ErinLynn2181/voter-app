@@ -20,7 +20,7 @@ angular.module('votingApp')
           $scope.pollsExist = (data.length > 0) ? true : false;
           if ($scope.pollsExist) {
             for (var i = 0; i < data.length; i++) {
-              var posted_url = '' + document.URL + user.replace(' ', '-') + '/' + data[i].poll_name;
+              var posted_url = '' + document.URL + user + '/' + data[i].poll_name;
               polls.push({ user_name: data[i].user_name, poll_name: data[i].poll_name, posted_url: posted_url});
             }
           }
