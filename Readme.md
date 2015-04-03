@@ -6,10 +6,9 @@ Let's get our environment ready for a new angular-fullstack application provided
 
 ```
 $ rm -rf *
-$ nvm use v0.11.14
-$ nvm alias default 0.11.14
-$ npm install -g yo grunt-cli generator-angular-fullstack
+$ npm install -g yo grunt grunt-cli generator-angular-fullstack
 $ yo angular-fullstack
+$ bower install && npm install
 ```
 
 Answer the questions as shown below:
@@ -31,7 +30,7 @@ Answer the questions as shown below:
 ? Would you like to include additional oAuth strategies? Twitter
 ? Would you like to use socket.io? No
 
-[?] May bower anonymously report usage statistics to improve the tool over time? (Y/n)  Y
+[?] May bower anonymously report usage statistics to improve the tool over time? (Y/n)  N
 ```
 
 ### Note
@@ -41,7 +40,7 @@ If you get this, simply rerun ```yo angular-fullstack```. You will then be asked
 
 ```
 ? Existing .yo-rc configuration found, would you like to use it? (Y/n) Y
-? Overwrite client/favicon.ico? (Ynaxdh) N
+? Overwrite client/favicon.ico? (Ynaxdh) Y
 ```
 
 
@@ -57,7 +56,6 @@ $ ./mongod
 
 You will want to open up a new terminal to work from by clicking on the `+` icon and select `New Terminal`
 
-
 # Start the application
 To start the application just execute the below command then in the toolbar select `Preview` -> `Preview Running Application`
 
@@ -67,16 +65,31 @@ It may take a few browser refreshes to get going.
 $ grunt serve
 ```
 
+# Create a repository
+You need to be using a repository, [http://github.com](http://github.com) is a good choice for this.
+
+To turn your application into a repository run the commands
+
+```
+$ git init
+$ git add .
+$ git commit -am 'initial commit'
+```
+
 # Publish to Heroku
 
 If you do not already have an account, create an account at [http://heroku.com](http://heroku.com)
 
-## Automatic Publish
-You can automatically publish to heroku using the angular-fullstack tool.
+Before publishing it's best to close down mongo and grunt so help save memory usage while deploying. So use `control-c` in both terminals to shut them down.
+
 
 ```
+$ npm install grunt-contrib-imagemin --save-dev
+$ npm install --save-dev
 $ heroku login
 $ yo angular-fullstack:heroku
+$ cd dist
+$ heroku config:set NODE_ENV=production
 ```
 
 Answer the questions it will ask you like the following, replacing the `[name]` with your project name, which will be part of the URL.
@@ -89,23 +102,10 @@ Answer the questions it will ask you like the following, replacing the `[name]` 
 To push updates you can run:
 
 ```
-$ grunt
+$ grunt --force
 $ grunt buildcontrol:heroku
 ```
 
-## Manual Publish
-
-Open your .gitignore file and remove the lines with `node_modules` and `client/bower_components`
-
-```
-$ git add .
-$ git commit -am 'including modules'
-$ NODE_ENV=production node dist/server/app.js
-$ heroku create [your app name] --stack cedar
-$ heroku config:set NODE_ENV=production
-$ git push heroku master
-$ heroku ps:scale web=1
-```
 
 Now that you are already setup anytime you want to push changes just run `git push heroku master`
 
@@ -114,7 +114,7 @@ Login to [http://heroku.com](http://heroku.com) and click on the `My Apps`
 
 Once in that page, find the new app you just created and click on `Get more add ons...`
 
-Inside the add ons page select `Mongolab` and in the dropdown select your new app then click on `Add Sandbox for Free`
+Inside the add ons page select `MongoLab` and in the dropdown select your new app then click on `Add Sandbox for Free`
 
 When you have finished adding the add on, click on `Apps` on the top of the page and then click the `MongoLab` add on to go into the admin ui.
 
@@ -127,5 +127,16 @@ Save the username, password, and the mongo connection under `To connect using a 
 Back inside your terminal in Cloud9 execute the command and replace the details in brackets with the information you saved in the previous step.
 
 ```
+$ cd dist
 $ heroku config:set PROD_MONGODB=mongodb://[username]:[password]@[connection string]
 ```
+
+# Final
+Do one last push to get everything up to date.
+
+```
+$ grunt --force
+$ grunt buildcontrol:heroku
+```
+
+Your app should now be viewable at http://[your app name].herokuapp.com
