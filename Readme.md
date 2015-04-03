@@ -1,3 +1,22 @@
+# Application Details
+### Basejump Example Page
+[http://voteplex.herokuapp.com/](http://voteplex.herokuapp.com/)
+
+### User Stories
+* As an authenticated user, I should be able to keep my polls and come back later to access them.
+* As an authenticated user, I should be able to share my polls with my friends.
+* As an authenticated user, I should be able to see the aggregate results of my polls.
+* As an authenticated user, I should be able to delete polls that I decide I don't want anymore.
+* As an authenticated user, I should be able to create a poll with any number of possible items.
+* As an unauthenticated user, I should not be able to vote.
+
+### Bonus
+* As an unauthenticated user, I should be able to see everyone's polls.
+* As an unauthenticated or authenticated user, I should be able to see the in chart form (Could be implemented using Chart.js or Google Charts)
+* As an authenticated user, if I don't like the options on a poll I can create a new option
+
+----
+
 # Getting setup in Cloud9
 [http://c9.io](http://c9.io) combines a powerful online code editor with a full Ubuntu workspace in the cloud
 
@@ -43,6 +62,7 @@ If you get this, simply rerun ```yo angular-fullstack```. You will then be asked
 ? Overwrite client/favicon.ico? (Ynaxdh) Y
 ```
 
+----
 
 # Get Mongodb running
 In your terminal execute the commands
@@ -56,6 +76,8 @@ $ ./mongod
 
 You will want to open up a new terminal to work from by clicking on the `+` icon and select `New Terminal`
 
+----
+
 # Start the application
 To start the application just execute the below command then in the toolbar select `Preview` -> `Preview Running Application`
 
@@ -64,6 +86,8 @@ It may take a few browser refreshes to get going.
 ```
 $ grunt serve
 ```
+
+----
 
 # Create a repository
 You need to be using a repository, [http://github.com](http://github.com) is a good choice for this.
@@ -75,6 +99,8 @@ $ git init
 $ git add .
 $ git commit -am 'initial commit'
 ```
+
+----
 
 # Publish to Heroku
 
@@ -130,6 +156,8 @@ Back inside your terminal in Cloud9 execute the command and replace the details 
 $ cd dist
 $ heroku config:set PROD_MONGODB=mongodb://[username]:[password]@[connection string]
 ```
+
+----
 
 # Final
 Do one last push to get everything up to date.
