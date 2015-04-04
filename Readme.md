@@ -23,11 +23,24 @@
 # Installation
 Let's get our environment ready for a new angular-fullstack application provided by yeoman.
 
+### First Steps
+* Open up [http://c9.io](http://c9.io) and sign in to your account.
+* Click on `Create New Workspace` at the top right of the c9.io page.
+* Click on the `Create a new workspace` in the dropdown after you select the button.
+* Name your workspace to match your project name that you are working on.
+* Choose Node.js in the selection area below the name field
+* Click the `Create` button
+* Wait for the workspace to finish processing and select it on the left sidebar, below the `Create New Workspace` button
+* Click the `Start Editing` button.
+
+### Inside the Cloud9 Integrated Development Environment (IDE)
+
+In the lower right hand corner you should see a terminal window. In this window use the following commands. (Do not include the $ sign).
+
 ```
 $ rm -rf *
 $ npm install -g yo grunt grunt-cli generator-angular-fullstack
 $ yo angular-fullstack
-$ bower install && npm install
 ```
 
 Answer the questions as shown below:
@@ -62,6 +75,13 @@ If you get this, simply rerun ```yo angular-fullstack```. You will then be asked
 ? Overwrite client/favicon.ico? (Ynaxdh) Y
 ```
 
+### Finish Installation
+To finish the installation run the commands:
+
+```
+$ bower install && npm install
+```
+
 ----
 
 # Get Mongodb running
@@ -79,18 +99,19 @@ You will want to open up a new terminal to work from by clicking on the `+` icon
 ----
 
 # Start the application
-To start the application just execute the below command then in the toolbar select `Preview` -> `Preview Running Application`
 
-It may take a few browser refreshes to get going.
+In the terminal window run the command:
 
 ```
 $ grunt serve
 ```
 
+Once you see the message `xdg-open: no method available for opening 'http://localhost:8080'` appear then you can open the internal Cloud9 browser. To launch the browser select `Preview` in the toolbar then select the dropdown option `Preview Running Application`.
+
 ----
 
 # Create a repository
-You need to be using a repository, [http://github.com](http://github.com) is a good choice for this.
+You need to be using a repository, [http://github.com](http://github.com) is a good choice for this. 
 
 To turn your application into a repository run the commands
 
@@ -99,6 +120,17 @@ $ git init
 $ git add .
 $ git commit -am 'initial commit'
 ```
+
+To create a new repository on Github, go to [http://github.com](http://github.com)
+
+* Click on the `+` button next to your username in the upper-right hand side of your screen
+* Select `New Repository`
+* It will ask you for the Repository Name, type in your new project name here
+* Click on the `Create repository` button.
+* Under `...or push an existing repository from the command line` click the `Copy to clipboard` button.
+* Paste in the commands on your clipboard into the Cloud9 terminal prompt.
+
+This pushes your changes to your repository on Github. Check back on your Github profile to view your repositories to check if the changes were made.
 
 ----
 
@@ -114,8 +146,6 @@ $ npm install grunt-contrib-imagemin --save-dev
 $ npm install --save-dev
 $ heroku login
 $ yo angular-fullstack:heroku
-$ cd dist
-$ heroku config:set NODE_ENV=production
 ```
 
 Answer the questions it will ask you like the following, replacing the `[name]` with your project name, which will be part of the URL.
@@ -125,11 +155,11 @@ Answer the questions it will ask you like the following, replacing the `[name]` 
 ? On which region do you want to deploy ? US
 ```
 
-To push updates you can run:
+Set the config flag for your Heroku environment to be running in production mode.
 
 ```
-$ grunt --force
-$ grunt buildcontrol:heroku
+$ cd ~/workspace/dist
+$ heroku config:set NODE_ENV=production
 ```
 
 
@@ -152,19 +182,27 @@ Save the username, password, and the mongo connection under `To connect using a 
 
 Back inside your terminal in Cloud9 execute the command and replace the details in brackets with the information you saved in the previous step.
 
-```
-$ cd dist
-$ heroku config:set PROD_MONGODB=mongodb://[username]:[password]@[connection string]
-```
-
 ----
 
-# Final
-Do one last push to get everything up to date.
+# After Deployment
+
+### Github
+To update your Github repository run the commands:
+
+```
+$ git add .
+$ git commit -am 'Your commit message'
+$ git push origin master
+```
+
+### Heroku
+If you make changes after your deployment, you can run the commands listed to update your website hosted on Heroku.
 
 ```
 $ grunt --force
 $ grunt buildcontrol:heroku
 ```
+
+
 
 Your app should now be viewable at http://[your app name].herokuapp.com
