@@ -15,6 +15,7 @@
 * As an unauthenticated or authenticated user, I should be able to see the in chart form (Could be implemented using Chart.js or Google Charts)
 * As an authenticated user, if I don't like the options on a poll I can create a new option
 
+
 ----
 
 # Getting setup in Cloud9
@@ -160,27 +161,8 @@ Set the config flag for your Heroku environment to be running in production mode
 ```
 $ cd ~/workspace/dist
 $ heroku config:set NODE_ENV=production
+$ heroku addons:add mongolab
 ```
-
-
-Now that you are already setup anytime you want to push changes just run `git push heroku master`
-
-## Install Mongo Addon
-Login to [http://heroku.com](http://heroku.com) and click on the `My Apps`
-
-Once in that page, find the new app you just created and click on `Get more add ons...`
-
-Inside the add ons page select `MongoLab` and in the dropdown select your new app then click on `Add Sandbox for Free`
-
-When you have finished adding the add on, click on `Apps` on the top of the page and then click the `MongoLab` add on to go into the admin ui.
-
-Inside the add on click on `Users` then select `Add database user`
-
-Fill in the details and click on `Create`
-
-Save the username, password, and the mongo connection under `To connect using a driver via the standard URI` it should look like a `mongodb://` url.
-
-Back inside your terminal in Cloud9 execute the command and replace the details in brackets with the information you saved in the previous step.
 
 ----
 
