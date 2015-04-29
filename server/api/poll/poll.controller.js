@@ -52,13 +52,27 @@ exports.create = function(req, res) {
 exports.update = function(req, res) {
   if(req.body._id) { delete req.body._id; }
   Poll.findById(req.params.id, function (err, poll) {
+    /*
+    console.log(poll);
+    console.log(req.body);
     if (err) { return handleError(res, err); }
     if(!poll) { return res.send(404); }
     var updated = _.merge(poll, req.body);
+    updated.voted_users = req.body.voted_users;
+    updated.poll_results = req.body.poll_results;
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
       return res.json(200, poll);
     });
+    */
+    console.log(poll);
+    poll.remove(function(err) {
+      if (err) { return handleError(res, err); }
+      Poll.create(req.body, function(err, poll) {
+        if (err) { return handleError(res, err); }
+        return res.json(201, poll);
+      })
+    })
   });
 };
 

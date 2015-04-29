@@ -7,6 +7,7 @@ var PollSchema = new Schema({
   user_name: String,
   poll_name: String,
   poll_options: Array,
+  poll_results: Array,
   votes: Array,
   voted_users: Array,
   comments: Array

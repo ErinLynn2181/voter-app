@@ -6,12 +6,12 @@
       p.lead by {{poll.user_name}}
       
     .col-lg-4
-      form
+      form(name='form' ng-submit='submit()')
         ul.list-group
           li.list-group-item( ng-repeat="item in poll.poll_options") 
-            input(type='radio' name='choice') 
+            input(ng-model='form.choice' name='choice' type='radio' value='{{item}}') 
             {{item}}
-        button(ng-disabled="!isLoggedIn()").btn.btn-lg.btn-success Vote!
+        button(type='submit' ng-disabled="!isLoggedIn()").btn.btn-lg.btn-success Vote!
         
     .col-lg-4.comments
       p(ng-repeat="comment in poll.comments" ng-show="commentsExist")

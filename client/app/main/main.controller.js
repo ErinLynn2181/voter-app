@@ -21,12 +21,13 @@ angular.module('votingApp')
           if ($scope.pollsExist) {
             for (var i = 0; i < data.length; i++) {
               var posted_url = '' + document.URL + user + '/' + data[i].poll_name;
-              polls.push({ user_name: data[i].user_name, poll_name: data[i].poll_name, posted_url: posted_url});
+              polls.push(data[i]);
             }
           }
           $scope.myPolls = polls;
         });
     }
+
 
     $scope.addThing = function() {
       if($scope.newThing === '') {
@@ -50,6 +51,18 @@ angular.module('votingApp')
         })
     };
 
+    // update results
+    $scope.submit = function(choice) {
+      var index = $scope.poll.poll_options.indexOf($scope.form.choice);
+      $scope.poll.poll_results[index]++;
+      $scope.poll.voted_users.push($scope.getCurrentUser.name)
+      console.log($scope.poll);
+      $http.put('/api/polls/' + $scope.poll._id,  $scope.poll).then(function(data) {
+        $scope.setPage('results', $scope.poll);
+      });
+      //console.log($scope.poll.poll_name + $scope.form.choice);
+    }
+
     $scope.setPage = function(page, poll) {
       $scope.page = page;
 
@@ -67,29 +80,54 @@ angular.module('votingApp')
           user = $scope.user.replace('-',' ');
         }
 
-        var user_name;
-        var poll_name;
-        var poll_options;
         var comments;
 
         poll = poll.replace(/[^\w\s]/gi, '')
-        console.log('/api/polls/' + user + '/' + poll);
+
         $http.get('/api/polls/' + user + '/' + poll)
           .success(function(data) {
-            console.log("success");
             if (data.length !== 0) {
-              user_name = data[0].user_name;
-              poll_name = data[0].poll_name;
-              poll_options = data[0].poll_options;
               comments = data[0].comments;
-
-              $scope.poll = {user_name: user_name, poll_name: poll_name, poll_options: poll_options, comments: comments };
-
+              $scope.poll = data[0];
               $scope.commentsExist = (comments.length > 0) ? true : false
+
+              if ($scope.poll.voted_users.indexOf(user) >= 0) {
+                $scope.setPage('results', $scope.poll);
+              } else {
+                console.log($scope.poll.voted_users + ' // ' + user);
+              }
             } else {
               $scope.pollExists = false;
             }
           });
+        } else if ($scope.page === 'results') {
+          var user;
+          if ($scope.user === undefined) {
+            user = $scope.getCurrentUser.name;
+          } else {
+            user = $scope.user.replace('-',' ');
+          }
+
+          $http.get('/api/polls/' + user + '/' + $scope.poll.poll_name)
+            .success(function(data) {
+              $scope.results = data[0].poll_results;
+              var ctx = document.getElementById("myChart").getContext("2d");
+              var data = {
+                labels: $scope.poll.poll_options,
+                datasets: [{
+                        label: "My First dataset",
+                        fillColor: "rgba(220,220,220,0.5)",
+                        strokeColor: "rgba(220,220,220,0.8)",
+                        highlightFill: "rgba(220,220,220,0.75)",
+                        highlightStroke: "rgba(220,220,220,1)",
+                        data: $scope.poll.poll_results
+                    }]
+              };
+              var myBarChart = new Chart(ctx).Bar(data, {
+                barShowStroke: false
+              });
+
+            })
         }
       }
 
@@ -99,12 +137,7 @@ angular.module('votingApp')
         if ($routeParams.hasOwnProperty('user') && $routeParams.hasOwnProperty('poll')) {
           $scope.user = $routeParams.user;
           $scope.setPage('votePoll', $routeParams.poll)
-          console.log('word')
-        } else {
-          console.log('why')
         }
-      } else {
-        console.log(Object.keys($routeParams).length);
       }
 
     });

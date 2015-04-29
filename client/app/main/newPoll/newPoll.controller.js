@@ -21,11 +21,16 @@ angular.module('votingApp')
       $http.get('/api/polls/' + getCurrentUser.name + '/' + poll_name)
         .success(function(data) {
           // Poll does not already exist for user, create it
+          var results = [];
+          for (var i = 0; i < $scope.pollOptions.length; i++) {
+            results.push(0);
+          }
           if (data.length === 0) {
             var post_data = {
               user_name: getCurrentUser.name,
               poll_name: poll_name,
               poll_options: $scope.pollOptions,
+              poll_results: results,
               votes: [],
               voted_users: [],
               comments: []

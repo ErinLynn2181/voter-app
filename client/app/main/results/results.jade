@@ -1,0 +1,14 @@
+p {{poll}}
+h1 {{poll.poll_name}}
+
+canvas#myChart(width='400' height='400')
+
+script.
+  var ctx = document.getElementById("myChart").getContext("2d");
+  var data = {
+    labels: ['x','y'],
+    datasets: [{
+      data: [4,7]
+    }]
+  }
+  var myBarChart = new Chart(ctx).Bar(data);
